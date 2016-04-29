@@ -10,7 +10,7 @@ public class ITA_CES22_Ex5_Proxy {
         client.sendInfo();
         
         server.accept();
-        
+        client.printReceivedInfo();
     }
     
 }

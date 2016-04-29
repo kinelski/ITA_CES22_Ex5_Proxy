@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
@@ -50,11 +51,10 @@ public class Client {
                 
                 try{
                     PrintStream output = new PrintStream (client.getOutputStream());
-                    output.println(text.getText());
+                    output.println(text.getText() + "\nEndOfFile");
                     
                     frame.setVisible(false);
                     frame.dispose();
-                    client.close();
                 }
                 catch(Exception e){}
                 
@@ -69,5 +69,21 @@ public class Client {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
+    }
+    
+    public void printReceivedInfo(){
+        try{
+            Scanner input = new Scanner(client.getInputStream());
+            String new_line, HTML = "";
+            
+            new_line = input.nextLine();
+            while (!new_line.equals("EndOfFile")){
+                HTML = HTML + new_line + "\n";
+                new_line = input.nextLine();
+            }
+            
+            System.out.println (HTML);
+        }
+        catch (Exception e){}
     }
 }
