@@ -13,10 +13,6 @@ public class Client {
     
     private Socket client;
     
-    private JFrame frame;
-    private JTextArea text;
-    private JButton button;
-    
     public final int FW = 500;
     public final int FH = 200;
     public final int TW = 475;
@@ -31,6 +27,14 @@ public class Client {
         catch(Exception e){
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
         }
+        
+        
+    }
+    
+    public void sendInfo (){
+        JFrame frame;
+        JTextArea text;
+        JButton button;
         
         frame = new JFrame("Cliente");
         text = new JTextArea();
@@ -47,7 +51,10 @@ public class Client {
                 try{
                     PrintStream output = new PrintStream (client.getOutputStream());
                     output.println(text.getText());
-                    text.setText("");
+                    
+                    frame.setVisible(false);
+                    frame.dispose();
+                    client.close();
                 }
                 catch(Exception e){}
                 
@@ -63,5 +70,4 @@ public class Client {
         frame.setResizable(false);
         frame.setVisible(true);
     }
-    
 }

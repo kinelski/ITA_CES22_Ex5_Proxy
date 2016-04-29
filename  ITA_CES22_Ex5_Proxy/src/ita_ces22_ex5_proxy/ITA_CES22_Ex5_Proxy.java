@@ -7,6 +7,8 @@ public class ITA_CES22_Ex5_Proxy {
         Server server = new Server();
         Client client = new Client();
         
+        client.sendInfo();
+        
         server.accept();
         
     }
