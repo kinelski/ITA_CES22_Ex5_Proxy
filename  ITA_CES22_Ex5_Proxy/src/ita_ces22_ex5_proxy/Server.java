@@ -9,10 +9,12 @@ import java.util.Scanner;
 public class Server {
     
     private ServerSocket server;
+    private Socket client;
+    private String request;
     
-    public Server (){
+    public Server (int port){
         try{
-            server = new ServerSocket(3322);
+            server = new ServerSocket(port);
         }
         catch (IOException e){
             e.printStackTrace();
@@ -20,25 +22,41 @@ public class Server {
     }
     
     public void accept(){
-        String info = "";
+        try{
+            client = server.accept();
+        }
+        catch (Exception e){}
+    }
+    
+    public void clientRequest(){
+        request = "";
         
         try{
-            Socket client = server.accept();
             Scanner input = new Scanner(client.getInputStream());
-            String new_line="", returnInfo;
+            String new_line="";
             
             new_line = input.nextLine();
             while (!new_line.equals("EndOfFile")){
-                info = info + new_line + "\n";
+                request = request + new_line + "\n";
                 new_line = input.nextLine();
             }
-            
-            returnInfo = info + "EndOfFile\n";
-            
-            PrintStream out = new PrintStream(client.getOutputStream());
-            out.print(returnInfo);
         }
-        catch (Exception e){}
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void getAnswer(){
+        String answer;
+        
+        clientRequest();
+        answer = request;
+        
+        try{
+            PrintStream out = new PrintStream(client.getOutputStream());
+            out.print(answer + "EndOfFile\n");
+        }
+        catch(Exception e){}
     }
     
     public void close(){

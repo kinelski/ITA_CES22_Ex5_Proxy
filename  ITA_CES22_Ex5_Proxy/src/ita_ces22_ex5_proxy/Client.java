@@ -21,9 +21,9 @@ public class Client {
     public final int BW = 70;
     public final int BH = 20;
     
-    public Client (){
+    public Client (int port){
         try{
-            client = new Socket("127.0.0.1", 3322);
+            client = new Socket("127.0.0.1", port);
         }
         catch(Exception e){
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
@@ -56,7 +56,9 @@ public class Client {
                     frame.setVisible(false);
                     frame.dispose();
                 }
-                catch(Exception e){}
+                catch(Exception e){
+                    System.out.println ("nao foi");
+                }
                 
             }
         });
